@@ -1,0 +1,4 @@
+workspace_name: todo-app
+git_host: example.com
+git_namespace: namespace
+environments: []

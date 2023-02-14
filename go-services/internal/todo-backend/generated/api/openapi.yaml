@@ -1,0 +1,192 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: Maintainer email
+    name: Maintainer name
+  description: Service description
+  title: todo-backend
+  version: 1.0.0
+servers:
+- url: <service-url>/
+paths:
+  /todos:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoNoteCreateRequest'
+        description: Todo note
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoNote'
+          description: OK
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unknown error
+      summary: Add new todo note
+      tags:
+      - /todos
+  /todos/{id}:
+    delete:
+      parameters:
+      - description: ID of todo note
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                properties: {}
+                type: object
+          description: OK
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unknown error
+      summary: Delete todo note by id
+      tags:
+      - /todos/id
+    get:
+      parameters:
+      - description: ID of todo note
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoNote'
+          description: OK
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unknown error
+      summary: Get todo note by id
+      tags:
+      - /todos/id
+    put:
+      parameters:
+      - description: ID of todo note
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoNoteUpdateRequest'
+        description: Todo note
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoNote'
+          description: OK
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Not Found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unknown error
+      summary: Update todo note
+      tags:
+      - /todos/id
+components:
+  schemas:
+    Error:
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+      - code
+      - message
+      type: object
+    TodoNote:
+      allOf:
+      - $ref: '#/components/schemas/TodoNoteUpdateRequest'
+      - $ref: '#/components/schemas/TodoNote_allOf'
+    TodoNoteCreateRequest:
+      example:
+        description: description
+        title: title
+      properties:
+        description:
+          type: string
+        title:
+          type: string
+      required:
+      - title
+      type: object
+    TodoNoteUpdateRequest:
+      allOf:
+      - $ref: '#/components/schemas/TodoNoteCreateRequest'
+      - $ref: '#/components/schemas/TodoNoteUpdateRequest_allOf'
+    TodoNote_allOf:
+      properties:
+        created_at:
+          type: string
+        id:
+          format: int64
+          type: integer
+        updated_at:
+          type: string
+      required:
+      - created_at
+      - id
+      - updated_at
+      type: object
+      example: null
+    TodoNoteUpdateRequest_allOf:
+      properties:
+        is_completed:
+          type: boolean
+      type: object
+      example: null
+
