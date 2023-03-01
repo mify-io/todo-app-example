@@ -114,3 +114,4 @@ func (c *MifyDynamicConfig) RegisterConfig(cfgType interface{}, opts DynamicRegi
 	}
 	c.registerConfig(getConfigType(cfgType), loader)
 }
+

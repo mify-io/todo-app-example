@@ -58,3 +58,4 @@ func (c *MifyStaticConfig) Register(cfg interface{}, opts StaticRegisterOpts) {
 	}
 	c.registerConfig(getConfigType(cfg), loader)
 }
+

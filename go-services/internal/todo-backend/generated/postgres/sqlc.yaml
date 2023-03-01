@@ -1,0 +1,11 @@
+# vim: set ft=yaml:
+version: "2"
+sql:
+- schema: "../../../../migrations/todo_backend"
+  queries: "../../../../sql-queries/todo_backend"
+  engine: "postgresql"
+  gen:
+    go:
+      package: "postgres"
+      out: "."
+      sql_package: "pgx/v4"

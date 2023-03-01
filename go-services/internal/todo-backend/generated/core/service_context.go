@@ -5,15 +5,17 @@
 package core
 
 import (
-	"context"
 	"os"
+	"context"
 
+	"go.uber.org/zap"
+	"github.com/hashicorp/consul/api"
 	"example.com/namespace/todo-app/go-services/internal/pkg/generated/configs"
-	"example.com/namespace/todo-app/go-services/internal/pkg/generated/consul"
 	"example.com/namespace/todo-app/go-services/internal/pkg/generated/logs"
 	"example.com/namespace/todo-app/go-services/internal/pkg/generated/metrics"
-	"github.com/hashicorp/consul/api"
-	"go.uber.org/zap"
+	"example.com/namespace/todo-app/go-services/internal/pkg/generated/consul"
+	"github.com/jackc/pgx/v4/pgxpool"
+	"example.com/namespace/todo-app/go-services/internal/todo-backend/generated/postgres"
 )
 
 type MifyServiceContext struct {
@@ -26,6 +28,7 @@ type MifyServiceContext struct {
 	staticConfig   *configs.MifyStaticConfig
 	dynamicConfig  *configs.MifyDynamicConfig
 	clients        *MifyServiceClients
+	postgres       *pgxpool.Pool
 
 	serviceExtra interface{}
 }
@@ -72,6 +75,15 @@ func NewMifyServiceContext(goContext context.Context, serviceName string, extraC
 	}
 	context.clients = clients
 
+
+	pgConnString := postgres.GetPostgresConfig(staticConfig).DatabaseUrl
+	dbpool, err := pgxpool.Connect(goContext, pgConnString)
+	if err != nil {
+		return nil, err
+	}
+	context.postgres = dbpool
+
+
 	extra, err := extraCreate(context)
 	if err != nil {
 		return nil, err
@@ -111,6 +123,10 @@ func (c *MifyServiceContext) DynamicConfig() *configs.MifyDynamicConfig {
 
 func (c *MifyServiceContext) Clients() *MifyServiceClients {
 	return c.clients
+}
+
+func (c *MifyServiceContext) Postgres() *pgxpool.Pool {
+	return c.postgres
 }
 
 func (c *MifyServiceContext) ServiceExtra() interface{} {

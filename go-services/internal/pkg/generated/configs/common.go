@@ -122,11 +122,10 @@ func (c *configProviderBase) updateConfigData(configType reflect.Type, newDataPt
 // cfgPtr must be reference to configuration struct (struct wich will contains configuration).
 // This function has better performance than func Get, because no excess struct instances are created.
 // Example:
+//   type MyStruct struct { SomeData string }
 //
-//	type MyStruct struct { SomeData string }
-//
-//	var c configProviderBase
-//	cfgPtr := c.GetPtr((*MyStruct)(nil)).(*MyStruct)
+//   var c configProviderBase
+//   cfgPtr := c.GetPtr((*MyStruct)(nil)).(*MyStruct)
 func (c *configProviderBase) GetPtr(cfgPtr interface{}) (interface{}, error) {
 	configType := getConfigTypeByPtr(cfgPtr)
 	cfgDataPtr := c.addOrGetConfig(configType)
@@ -146,11 +145,10 @@ func (c *configProviderBase) MustGetPtr(cfgPtr interface{}) interface{} {
 // cfg must be configuration struct (struct wich will contains configuration).
 // This function has worse performance than func GetPtr, because excess struct instances are created.
 // Example:
+//   type MyStruct struct { SomeData string }
 //
-//	type MyStruct struct { SomeData string }
-//
-//	var c configProviderBase
-//	cfg := c.Get(MyStruct{}).(MyStruct)
+//   var c configProviderBase
+//   cfg := c.Get(MyStruct{}).(MyStruct)
 func (c *configProviderBase) Get(cfg interface{}) (interface{}, error) {
 	configType := getConfigType(cfg)
 	cfgDataPtr := c.addOrGetConfig(configType)

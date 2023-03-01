@@ -5,16 +5,16 @@
 package app
 
 import (
+	"net/http"
 	"context"
-	"example.com/namespace/todo-app/go-services/internal/todo-backend/app"
-	"example.com/namespace/todo-app/go-services/internal/todo-backend/app/router"
-	"example.com/namespace/todo-app/go-services/internal/todo-backend/generated/api"
-	"example.com/namespace/todo-app/go-services/internal/todo-backend/generated/api/init"
-	"example.com/namespace/todo-app/go-services/internal/todo-backend/generated/core"
 	"github.com/go-chi/chi/v5"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"go.uber.org/zap"
-	"net/http"
+	"example.com/namespace/todo-app/go-services/internal/todo-backend/app"
+	"example.com/namespace/todo-app/go-services/internal/todo-backend/app/router"
+	"example.com/namespace/todo-app/go-services/internal/todo-backend/generated/api/init"
+	"example.com/namespace/todo-app/go-services/internal/todo-backend/generated/core"
+	"example.com/namespace/todo-app/go-services/internal/todo-backend/generated/api"
 )
 
 type routerConfig struct {
@@ -23,7 +23,7 @@ type routerConfig struct {
 
 func newRouterConfig(ctx *core.MifyServiceContext) *routerConfig {
 	conf := router.NewRouterConfig(ctx)
-	return &routerConfig{
+	return &routerConfig {
 		middlewares: conf.Middlewares,
 	}
 }
@@ -33,27 +33,27 @@ func (r *routerConfig) Middlewares() []func(http.Handler) http.Handler {
 }
 
 type MifyServiceApp struct {
-	context           *core.MifyServiceContext
+	context *core.MifyServiceContext
 	maintenanceRouter chi.Router
-	apiRouter         chi.Router
+	apiRouter  chi.Router
 }
 
-type maintenanceRouter struct{}
+type maintenanceRouter struct {}
 
 func (r maintenanceRouter) Routes() openapi.Routes {
-	return []openapi.Route{
+	return []openapi.Route {
 		{
-			Name:    "metrics",
-			Method:  "post",
+			Name: "metrics",
+			Method: "post",
 			Pattern: "/metrics",
 			HandlerFunc: func(rw http.ResponseWriter, r *http.Request) {
 				promhttp.Handler().ServeHTTP(rw, r)
 			},
 		},
 		{
-			Name:        "swagger-ui",
-			Method:      "get",
-			Pattern:     "/swagger-ui/*",
+			Name: "swagger-ui",
+			Method: "get",
+			Pattern: "/swagger-ui/*",
 			HandlerFunc: openapi.SwaggerUIHandlerFunc,
 		},
 	}

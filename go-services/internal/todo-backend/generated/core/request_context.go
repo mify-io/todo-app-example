@@ -15,7 +15,7 @@ import (
 	"example.com/namespace/todo-app/go-services/internal/pkg/generated/metrics"
 )
 
-type RequestExtraFactory func(ctx *MifyServiceContext) (interface{}, error)
+type RequestExtraFactory func (ctx *MifyServiceContext) (interface{}, error)
 
 type MifyRequestContextBuilder struct {
 	requestId    string

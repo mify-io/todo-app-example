@@ -1,0 +1,12 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: passwd
+      POSTGRES_DB: todo_backend
+    volumes:
+      - ~/.cache/mify-db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432

@@ -20,8 +20,8 @@ type RequestMetrics struct {
 
 type RequestInfo struct {
 	ServiceName string
-	Hostname    string
-	URLPath     string
+	Hostname string
+	URLPath string
 }
 
 func NewRequestMetrics() *RequestMetrics {

@@ -11,12 +11,12 @@ import (
 	"github.com/go-chi/chi/v5"
 	"go.uber.org/zap"
 
-	"example.com/namespace/todo-app/go-services/internal/pkg/generated/configs"
 	"example.com/namespace/todo-app/go-services/internal/todo-backend/generated/core"
+	"example.com/namespace/todo-app/go-services/internal/pkg/generated/configs"
 )
 
 type ServerConf struct {
-	ServerEndpoint      string `envconfig:"TODO_BACKEND_API_ENDPOINT" default:":38437"`
+	ServerEndpoint string `envconfig:"TODO_BACKEND_API_ENDPOINT" default:":38437"`
 	MaintenanceEndpoint string `envconfig:"TODO_BACKEND_MAINTENANCE_ENDPOINT" default:":45185"`
 }
 

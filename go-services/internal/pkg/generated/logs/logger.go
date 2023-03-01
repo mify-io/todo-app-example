@@ -19,7 +19,7 @@ type MifyLoggerWrapper struct {
 
 type MifyServiceContext interface {
 	ServiceName() string
-	Hostname() string
+	Hostname()    string
 }
 
 func NewMifyLoggerWrapper(ctx MifyServiceContext) (*MifyLoggerWrapper, error) {

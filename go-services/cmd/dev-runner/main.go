@@ -3,6 +3,8 @@
 
 package main
 
+
+
 import (
 	"context"
 	todo_backend "example.com/namespace/todo-app/go-services/internal/todo-backend/generated/app"
@@ -19,3 +21,5 @@ func main() {
 
 	<-ctx.Done()
 }
+
+

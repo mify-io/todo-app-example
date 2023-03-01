@@ -13,8 +13,8 @@ type ServiceExtra struct {
 }
 
 func NewServiceExtra(ctx *core.MifyServiceContext) (*ServiceExtra, error) {
-	memStorage := storage.NewTodoMemoryStorage()
-	todoService := application.NewTodoService(memStorage)
+	dbStorage := storage.NewTodoDBStorage(ctx)
+	todoService := application.NewTodoService(dbStorage)
 	extra := &ServiceExtra{
 		TodoService: todoService,
 	}
