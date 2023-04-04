@@ -6,10 +6,28 @@ Check Mify [docs](http://mify.io/docs) for usage of the CLI.
 
 ## Running this example
 
+
+### Postgres for backend
+
+```
+$ cd go-services/docker/localenv
+$ docker compose up -d
+```
+
+### Backend
+
 ```
 $ cd go-services
 $ go mod tidy
 $ go run ./cmd/todo-backend
+```
+
+### Frontend
+
+```
+$ cd js-services/todo-app
+$ yarn install
+$ yarn start
 ```
 
 ## Customization

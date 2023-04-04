@@ -41,3 +41,23 @@ func (s *TodosApiService) TodosPost(
 
 	return openapi.Response(http.StatusOK, handlers.MakeAPITodoNote(note)), nil
 }
+
+// TodosGet - List todo notes
+func (s *TodosApiService) TodosGet(ctx *core.MifyRequestContext) (openapi.ServiceResponse, error) {
+	todoSvc := apputil.GetServiceExtra(ctx.ServiceContext()).TodoService
+
+	notes, err := todoSvc.ListTodos(ctx)
+	if err != nil {
+		return openapi.Response(http.StatusInternalServerError, openapi.Error{
+			Code:    strconv.Itoa(http.StatusInternalServerError),
+			Message: "Failed to list todo notes",
+		}), err
+	}
+
+	responseList := make([]openapi.TodoNote, 0, len(notes))
+	for _, note := range notes {
+		responseList = append(responseList, handlers.MakeAPITodoNote(note))
+	}
+
+	return openapi.Response(http.StatusOK, responseList), nil
+}

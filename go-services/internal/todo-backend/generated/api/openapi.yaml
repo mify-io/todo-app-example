@@ -10,6 +10,23 @@ servers:
 - url: <service-url>/
 paths:
   /todos:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoNoteList'
+          description: OK
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unknown error
+      summary: Get list of todo notes
+      tags:
+      - /todos
     post:
       requestBody:
         content:
@@ -164,6 +181,10 @@ components:
       required:
       - title
       type: object
+    TodoNoteList:
+      items:
+        $ref: '#/components/schemas/TodoNote'
+      type: array
     TodoNoteUpdateRequest:
       allOf:
       - $ref: '#/components/schemas/TodoNoteCreateRequest'

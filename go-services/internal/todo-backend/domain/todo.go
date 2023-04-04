@@ -21,5 +21,6 @@ type TodoStorage interface {
 	InsertTodoNote(ctx *core.MifyRequestContext, todoNote TodoNote) (TodoNote, error)
 	UpdateTodoNote(ctx *core.MifyRequestContext, todoNote TodoNote) (TodoNote, error)
 	SelectTodoNote(ctx *core.MifyRequestContext, id int64) (TodoNote, error)
+	SelectTodoNotes(ctx *core.MifyRequestContext) ([]TodoNote, error)
 	DeleteTodoNote(ctx *core.MifyRequestContext, id int64) error
 }

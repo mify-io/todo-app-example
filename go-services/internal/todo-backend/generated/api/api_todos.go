@@ -48,12 +48,40 @@ func NewTodosApiController(ctx *core.MifyServiceContext, s TodosApiServicer, opt
 func (c *TodosApiController) Routes() Routes {
 	return Routes{
 		{
+			"TodosGet",
+			strings.ToUpper("Get"),
+			"/todos",
+			c.TodosGet,
+		},
+		{
 			"TodosPost",
 			strings.ToUpper("Post"),
 			"/todos",
 			c.TodosPost,
 		},
 	}
+}
+
+// TodosGet - Get list of todo notes
+func (c *TodosApiController) TodosGet(w http.ResponseWriter, r *http.Request) {
+	var handlerErr error
+	var requestBody []byte
+	reqCtx := openapi_public.GetMifyRequestContext(r)
+
+	var result ServiceResponse
+	defer LogHandler(reqCtx, requestBody, &result, &handlerErr)()
+
+	var herr error
+	result, herr = c.service.TodosGet(reqCtx)
+	// If an error occurred, encode the error with the status code
+	if herr != nil {
+		handlerErr = herr
+		c.errorHandler(w, r, herr, &result)
+		return
+	}
+	// If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, result.Headers, w)
+
 }
 
 // TodosPost - Add new todo note

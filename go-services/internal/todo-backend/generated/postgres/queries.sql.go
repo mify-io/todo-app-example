@@ -66,6 +66,37 @@ func (q *Queries) SelectTodoNote(ctx context.Context, id int64) (Todo, error) {
 	return i, err
 }
 
+const selectTodoNotes = `-- name: SelectTodoNotes :many
+SELECT id, title, description, is_completed, created_at, updated_at FROM todos ORDER BY created_at DESC
+`
+
+func (q *Queries) SelectTodoNotes(ctx context.Context) ([]Todo, error) {
+	rows, err := q.db.Query(ctx, selectTodoNotes)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Todo
+	for rows.Next() {
+		var i Todo
+		if err := rows.Scan(
+			&i.ID,
+			&i.Title,
+			&i.Description,
+			&i.IsCompleted,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateTodoNote = `-- name: UpdateTodoNote :one
 UPDATE todos
 SET title = $2, description = $3,

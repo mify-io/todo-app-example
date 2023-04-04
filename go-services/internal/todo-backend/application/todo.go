@@ -27,6 +27,10 @@ func (s *TodoService) GetTodo(ctx *core.MifyRequestContext, id int64) (domain.To
 	return s.storage.SelectTodoNote(ctx, id)
 }
 
+func (s *TodoService) ListTodos(ctx *core.MifyRequestContext) ([]domain.TodoNote, error) {
+	return s.storage.SelectTodoNotes(ctx)
+}
+
 func (s *TodoService) DeleteTodo(ctx *core.MifyRequestContext, id int64) error {
 	return s.storage.DeleteTodoNote(ctx, id)
 }

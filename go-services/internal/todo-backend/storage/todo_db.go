@@ -68,6 +68,21 @@ func (s *TodoDBStorage) SelectTodoNote(ctx *core.MifyRequestContext, id int64) (
 	return makeDomainTodoNode(res), nil
 }
 
+func (s *TodoDBStorage) SelectTodoNotes(ctx *core.MifyRequestContext) ([]domain.TodoNote, error) {
+	res, err := s.querier.SelectTodoNotes(ctx)
+	if err != nil && errors.Is(err, pgx.ErrNoRows) {
+		return []domain.TodoNote{}, nil
+	}
+	if err != nil {
+		return []domain.TodoNote{}, err
+	}
+	outList := make([]domain.TodoNote, 0, len(res))
+	for _, dbNote := range res {
+		outList = append(outList, makeDomainTodoNode(dbNote))
+	}
+	return outList, nil
+}
+
 func (s *TodoDBStorage) UpdateTodoNote(
 	ctx *core.MifyRequestContext, todoNote domain.TodoNote) (domain.TodoNote, error) {
 	tx, err := s.pool.BeginTx(ctx, pgx.TxOptions{})

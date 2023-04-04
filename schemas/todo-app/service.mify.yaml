@@ -1,0 +1,7 @@
+language: js
+template: react-ts
+service_name: todo-app
+maintainers: []
+openapi:
+  clients:
+    todo-backend: {}

@@ -129,6 +129,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+    get:
+      summary: Get list of todo notes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoNoteList'
+        '500':
+          description: Unknown error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     Error:
@@ -176,3 +191,10 @@ components:
             - id
             - created_at
             - updated_at
+
+    TodoNoteList:
+      type: array
+      items:
+        $ref: '#/components/schemas/TodoNote'
+
+

@@ -17,6 +17,7 @@ var _ *core.MifyRequestContext
 // The TodosApiRouter implementation should parse necessary information from the http request,
 // pass the data to a TodosApiServicer to perform the required actions, then write the service results to the http response.
 type TodosApiRouter interface {
+	TodosGet(http.ResponseWriter, *http.Request)
 	TodosPost(http.ResponseWriter, *http.Request)
 }
 
@@ -34,6 +35,7 @@ type TodosIdApiRouter interface {
 // while the service implementation can ignored with the .openapi-generator-ignore file
 // and updated with the logic required for the API.
 type TodosApiServicer interface {
+	TodosGet(*core.MifyRequestContext) (ServiceResponse, error)
 	TodosPost(*core.MifyRequestContext, TodoNoteCreateRequest) (ServiceResponse, error)
 }
 

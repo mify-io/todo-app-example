@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 
 	"example.com/namespace/todo-app/go-services/internal/todo-backend/domain"
 	"example.com/namespace/todo-app/go-services/internal/todo-backend/generated/api"
@@ -43,6 +44,7 @@ func (s *TodosIdApiService) TodosIdPut(
 		Title:       todoNoteUpdateRequest.Title,
 		Description: todoNoteUpdateRequest.Description,
 		IsCompleted: todoNoteUpdateRequest.IsCompleted,
+		UpdatedAt:   time.Now(),
 	})
 	if err != nil && errors.Is(err, storage.ErrTodoNoteNotFound) {
 		// Return not found error
